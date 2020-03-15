@@ -1,0 +1,31 @@
+.message {
+  background-color: #096cd540;
+  padding: 5px;
+  border-radius: 5px;
+  border: solid 1px #3c00bf4a;
+  width: 100%
+}
+
+.chatMessage {
+  width: 80%;
+  padding: 10px;
+}
+
+.left {
+  margin-left: 0px;
+  background-color: #dedeff;
+}
+
+.right {
+  margin-left: 25%;
+  background-color: #6bae3d91;
+}
+
+.content {
+  font-size: inherit;
+}
+
+.author {
+  font-size: smaller;
+  text-align: right;
+}

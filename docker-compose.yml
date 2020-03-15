@@ -1,0 +1,27 @@
+version: "3.2"
+services:
+  front:
+    build: ./front
+    container_name: front
+    image: front
+    ports:
+      - "80:80"
+    environment:
+      VUE_APP_BACK_LINK: $VUE_APP_BACK_LINK
+  back:
+    build: ./back
+    container_name: back
+    image: back
+    ports:
+      - "9000:9000"
+    environment:
+      BACK_PORT: $BACK_PORT
+      FRONT_LINK: $FRONT_LINK
+      BDD_URL: $BDD_URL
+      BDD_DATABASE: $BDD_DATABASE
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
