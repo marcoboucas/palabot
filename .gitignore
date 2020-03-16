@@ -3,3 +3,6 @@ node_modules/
 **/dist/
 .env*
 */log
+.pytest_cache/
+report.html
+python/assets/

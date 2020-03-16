@@ -1,0 +1,7 @@
+numpy
+sklearn
+tensorflow
+seaborn
+matplotlib
+regex
+nltk
