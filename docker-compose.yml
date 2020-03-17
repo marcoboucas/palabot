@@ -18,10 +18,19 @@ services:
       BACK_PORT: $BACK_PORT
       FRONT_LINK: $FRONT_LINK
       BDD_URL: $BDD_URL
+      PYTHON_URL: $PYTHON_URL
       BDD_DATABASE: $BDD_DATABASE
+
+  back:
+    build: ./python
+    container_name: python
+    image: python
+    ports:
+      - "5000:5000"
   mongo:
     container_name: mongo
     image: mongo
     restart: always
     ports:
       - "27017:27017"
+  
