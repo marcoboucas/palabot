@@ -4,6 +4,7 @@ import {
 } from "../database/functions";
 import { MessageBDD } from "../database/models/Message";
 import { Message } from "../types";
+import callAPI from "../API";
 
 const handler = async (socket: any) => {
   socket.user = "Marco";
@@ -53,8 +54,7 @@ const handler = async (socket: any) => {
     
     */
 
-    let response: string = "Salut !";
-
+    let response: string = await callAPI(content);
     let messageSent: Message = {
       id: "",
       content: response,

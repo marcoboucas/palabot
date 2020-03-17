@@ -16,7 +16,6 @@ export default class ChatWindow extends Vue {
 
   mounted() {
     store.state.socket.on("message", (data: Message[]) => {
-      console.log(data);
       data.forEach((message: Message) => {
         this.messages.push({
           id: message.id,

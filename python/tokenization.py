@@ -40,10 +40,10 @@ class Tokenizer:
         """
         Function that transform one/many sentences into list of tokens
         """
-        try:
+        if type(sentences) == type([1]):
             L = []
             for sentence in sentences:
                 L.append(self.transform_one(sentence))
             return L
-        except:
+        else:
             return self.transform_one(sentences)
