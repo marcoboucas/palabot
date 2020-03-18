@@ -1,16 +1,5 @@
-let states = {
-  0: {
-    "title": "Begin",
-    "root": true,
-    "answer": "Hi ! How are you ?",
-    "ptx": 0,
-    "pty": 1
-  }
-}
-
-let conditions = [
-
-]
+let states = {}
+let connections = []
 
 let stateSize = 40;
 let statePadding = 20;
@@ -63,10 +52,10 @@ function draw() {
 
   strokeWeight(3);
   stroke(255, 255, 0)
-  for (let condition of conditions) {
-    let stat1 = states[condition.initialState]
+  for (let connection of connections) {
+    let stat1 = states[connection.initialState]
     let [x1, y1] = getCoord(stat1.ptx, stat1.pty)
-    let stat2 = states[condition.finalState]
+    let stat2 = states[connection.finalState]
     let [x2, y2] = getCoord(stat2.ptx, stat2.pty)
     line(x1, y1, x2, y2)
   }
@@ -114,140 +103,3 @@ function draw() {
 
 
 }
-
-function getCoord(ptx, pty) {
-  return [
-    ptx * stateTotalPadding,
-    pty * stateTotalPadding
-  ]
-}
-
-function isInState(x1, y1) {
-  for (let [id, state] of Object.entries(states)) {
-    let [x2,
-      y2
-    ] = getCoord(state.ptx, state.pty);
-    if (Math.abs(x1 - x2) < statW && Math.abs(y1 - y2) < statH) {
-      return id;
-    }
-  }
-  return undefined
-}
-
-function isInSpot(x, y) {
-  dx = Math.round(x / stateTotalPadding);
-  dy = Math.round(y / stateTotalPadding);
-  xp = dx * stateTotalPadding;
-  yp = dy * stateTotalPadding;
-
-  if ((xp - x) ** 2 + (yp - y) ** 2 < spotSize ** 2 / 4) {
-    return [dx, dy]
-  }
-  return undefined
-}
-
-function addState(ptx, pty) {
-  newState = {
-    "title": "",
-    "root": false,
-    "answer": "",
-    "ptx": ptx,
-    "pty": pty
-  }
-  // Adding in the first void spot
-  for (let i = 0; i >= 0; i++) {
-    if (!(i in states)) {
-      states[i] = newState;
-      return;
-    }
-  }
-}
-
-function removeState(id) {
-  if (Object.keys(states).length == 1) {
-    states = {}
-  } else {
-    delete states[id];
-  }
-}
-
-function mouseMoved() {
-  let x = mouseX - initialPadding;
-  let y = mouseY - initialPadding;
-
-  hoverState = undefined;
-  hoverSpot = undefined;
-
-  let nearestSpot = isInSpot(x, y);
-  let nearestState = isInState(x, y)
-  if (nearestState != undefined) {
-    hoverState = nearestState;
-  } else if (nearestSpot != undefined) {
-    hoverSpot = nearestSpot;
-  }
-}
-
-mouseDragged = mouseMoved;
-
-function mouseReleased() {
-  if (isDragging && hoverState != selectedState && selectedState != undefined && hoverState != undefined) {
-    // We add a condition link between the first and the second state
-    newCondition = {
-      "initialState": selectedState,
-      "finalState": hoverState
-    }
-    conditions.push(newCondition)
-  }
-  isDragging = false
-  if (0 <= mouseX && mouseX <= width && 0 <= mouseY && mouseY <= height) {
-    updateSelectedState(undefined)
-    if (hoverState != undefined) {
-      updateSelectedState(hoverState)
-      hoverState = undefined;
-    } else if (hoverSpot != undefined) {
-      addState(hoverSpot[0], hoverSpot[1])
-    }
-  }
-}
-
-function mousePressed() {
-  if (hoverState != undefined && hoverState == selectedState) {
-    isDragging = true;
-  }
-}
-
-function getListInputs() {
-  let liste = [];
-  for (let ele of document.getElementsByTagName('input')) {
-    liste.push(ele.id)
-  }
-
-  return liste
-}
-
-function updateState(ele) {
-  if (selectedState) {
-    let label = ele.id;
-    let value = ele.value;
-    if (!isNaN(Number(value))) {
-      value = Number(value)
-    }
-
-    states[selectedState][label] = value
-  }
-}
-
-function updateSelectedState(id) {
-  selectedState = id;
-  if (selectedState != undefined) {
-    let state = states[id];
-    for (let eleId of getListInputs()) {
-      document.getElementById(eleId).value = state[eleId]
-    }
-  } else {
-    for (let eleId of getListInputs()) {
-      document.getElementById(eleId).value = ""
-    }
-  }
-}
-updateSelectedState(undefined)
