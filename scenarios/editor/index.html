@@ -12,12 +12,33 @@
       margin: 0;
       overflow: hidden;
     }
+
+    #content {
+      height: 25%;
+      bottom: 0px;
+      right: 0px;
+      left: 0px;
+      position: fixed;
+    }
   </style>
-  <script src="p5.js"></script>
-  <script src="sketch.js"></script>
+
 </head>
 
 <body>
+  <div id="content">
+    <table>
+      <tr>
+        <th>Title</th>
+        <td><input type="text" id="title" oninput="updateScenario(this)" /></td>
+      </tr>
+      <tr>
+        <th>Desc</th>
+        <td><input type="text" id="desc" oninput="updateScenario(this)" /></td>
+      </tr>
+    </table>
+  </div>
+  <script src="p5.js"></script>
+  <script src="sketch.js"></script>
 </body>
 
 </html>
