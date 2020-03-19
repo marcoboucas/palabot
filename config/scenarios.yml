@@ -1,0 +1,6 @@
+bonjour:
+  trigger: Hello !
+  response: Hi !
+auRevoir:
+  trigger: Goodbye
+  response: CU !

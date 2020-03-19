@@ -21,7 +21,7 @@ services:
       PYTHON_URL: $PYTHON_URL
       BDD_DATABASE: $BDD_DATABASE
 
-  back:
+  python:
     build: ./python
     container_name: python
     image: python
@@ -33,4 +33,3 @@ services:
     restart: always
     ports:
       - "27017:27017"
-  

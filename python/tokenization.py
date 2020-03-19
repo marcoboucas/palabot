@@ -13,8 +13,8 @@ class Tokenizer:
 
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, using_stopwords=True):
+        self.using_stopwords = using_stopwords
 
     def transform_one(self, sentence):
         """
@@ -32,7 +32,7 @@ class Tokenizer:
         # Remove tokens if they are stop words
         if token == "":
             return False
-        if token in STOP_WORDS:
+        if self.using_stopwords and token in STOP_WORDS:
             return False
         return True
 

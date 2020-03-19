@@ -6,3 +6,5 @@ matplotlib
 regex
 nltk
 flask
+gensim
+pyyaml
