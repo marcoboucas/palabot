@@ -22,7 +22,7 @@ class Tokenizer:
         """
         tokens = re.split(pattern, sentence.lower())
         tokens_filtered = list(filter(self.token_filter, tokens))
-        print(tokens_filtered)
+        # print(tokens_filtered)
         return tokens_filtered
 
     def token_filter(self, token):

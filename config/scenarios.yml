@@ -1,6 +1,6 @@
 bonjour:
-  trigger: Hello !
-  response: Hi !
+  trigger: Hello !|Good morning
+  response: Hi ! | Hello
 auRevoir:
-  trigger: Goodbye
-  response: CU !
+  trigger: Goodbye| bye
+  response: CU ! | Goodbye ! | See you next time !

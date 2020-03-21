@@ -10,5 +10,10 @@ def load_scenarios():
         data = yaml.load(f.read(), Loader=Loader)
     scenarios = []
     for scenario in data.values():
-        scenario['trigger'] = tokenizer.transform(scenario['trigger'])
+        scenario['triggers'] = [tokenizer.transform(
+            trig) for trig in scenario['trigger'].split('|')]
+        del(scenario['trigger'])
+        scenario['responses'] = scenario['response'].split('|')
+        del(scenario['response'])
         scenarios.append(scenario)
+    return scenarios

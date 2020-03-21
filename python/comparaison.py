@@ -8,14 +8,12 @@ tokenizer = Tokenizer()
 model = api.load("glove-twitter-25")
 
 
-def compare_tokens(tokens1, tokens2):
-    _tokens1 = [word for word in tokens1 if word in model.vocab]
-    _tokens2 = [word for word in tokens2 if word in model.vocab]
-    return model.n_similarity(_tokens1, _tokens2)
-
-
-while True:
-    tokens1 = tokenizer.transform(input("sentence 1"))
-    tokens2 = tokenizer.transform(input("sentence 2"))
-    print(compare_tokens(tokens1, tokens2))
-    print('\n\n')
+def compare_tokens(token1, tokens2):
+    _token1 = [word for word in token1 if word in model.vocab]
+    max_similarity = 0
+    for token2 in tokens2:
+        _token2 = [word for word in token2 if word in model.vocab]
+        similarity = model.n_similarity(_token1, _token2)
+        if similarity > max_similarity:
+            max_similarity = similarity
+    return max_similarity
