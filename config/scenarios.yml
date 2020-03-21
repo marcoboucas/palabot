@@ -4,3 +4,12 @@ bonjour:
 auRevoir:
   trigger: Goodbye| bye
   response: CU ! | Goodbye ! | See you next time !
+health:
+  trigger: How are you ?
+  response: Fine, and you ?
+userGood:
+  trigger: I am good
+  response: Nice !
+userNotGood:
+  trigger: Not a good day | I am sad | I am angry | I am not good
+  response: Do you want to talk about it ?

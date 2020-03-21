@@ -6,11 +6,11 @@ from loadScenarios import load_scenarios
 from comparaison import compare_tokens
 app = Flask(__name__)
 
-tokenizer = Tokenizer()
+tokenizer = Tokenizer(using_stopwords=False)
 
 scenarios = load_scenarios()
 
-threshold = 0.5
+threshold = 0.9
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -18,7 +18,10 @@ def api():
     args = dict(request.form)
     message = args['content']
     message = tokenizer.transform(message)
+    print(message)
     response = "I don't understand ..."
+    if len(message) == 0:
+        return response
     max_similarity = 0
     for scenario in scenarios:
         similarity = compare_tokens(message, scenario['triggers'])
