@@ -1,7 +1,7 @@
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Dense, Embedding, LSTM
-from tensorflow.keras.optimizers import RMSprop
+from tensorflow.keras.layers import Input, Dense, Embedding, LSTM, Conv1D
+from tensorflow.keras.optimizers import Adam
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -92,38 +92,80 @@ X_train, X_test, y_train, y_test = train_test_split(X, y)
 print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
 
 
-# Creation of the model
+# Creation of the model RNN
 
 
-input = Input(
+input_RNN = Input(
     shape=(max_len,)
 )
 
-embedding = Embedding(
+embedding_RNN = Embedding(
     input_dim=len_vocab,
     output_dim=80,
     mask_zero=True
-)(input)
+)(input_RNN)
 
-lstm = LSTM(
+lstm_RNN = LSTM(
     units=50
-)(embedding)
+)(embedding_RNN)
 
-hidden = Dense(70)(lstm)
-output = Dense(3, activation="sigmoid")(hidden)
+hidden_RNN = Dense(70)(lstm_RNN)
+output_RNN = Dense(3, activation="sigmoid")(hidden_RNN)
 
-model = Model(inputs=input, outputs=output)
-model.compile(
-    optimizer=RMSprop(learning_rate=0.0001, rho=0.9),
+model_RNN = Model(inputs=input_RNN, outputs=output_RNN)
+
+model_RNN.compile(
+    optimizer=Adam(),
     loss='categorical_crossentropy',
     metrics=['accuracy'],
 )
 
-print(model.summary())
-history = model.fit(X_train, y_train, epochs=25, batch_size=32, verbose=1,
-                    validation_data=(X_test, y_test), shuffle=True, use_multiprocessing=True)
+# Creation of the model CNN
 
+input_CNN = Input(
+    shape=(max_len,)
+)
 
+embedding_CNN = Embedding(
+    input_dim=len_vocab,
+    output_dim=80,
+    mask_zero=True
+)(input_CNN)
+
+conv_CNN = Conv1D(
+    50,
+    5,
+    strides=1,
+    padding='valid',
+    data_format='channels_last',
+    dilation_rate=1,
+    activation=None,
+    use_bias=True,
+    kernel_initializer='glorot_uniform',
+    bias_initializer='zeros',
+    kernel_regularizer=None,
+    bias_regularizer=None,
+    activity_regularizer=None,
+    kernel_constraint=None,
+    bias_constraint=None
+)(embedding_CNN)
+
+hidden_CNN = Dense(30)(conv_CNN)
+output_CNN = Dense(3, activation="sigmoid")(hidden_CNN)
+
+model_CNN = Model(inputs=input_CNN, outputs=output_CNN)
+
+model_CNN.compile(
+    optimizer=Adam(),
+    loss='categorical_crossentropy',
+    metrics=['accuracy'],
+)
+
+print(model_RNN.summary())
+history = model_RNN.fit(X_train, y_train, epochs=15, batch_size=32, verbose=1,
+                        validation_data=(X_test, y_test), shuffle=True, use_multiprocessing=True)
+
+save_model(model_RNN)
 # Plot training & validation accuracy values
 plt.subplot(2, 1, 1)
 plt.plot(history.history['acc'])
@@ -143,5 +185,3 @@ plt.ylabel('Loss')
 plt.xlabel('Epoch')
 plt.legend(['Train', 'Test'], loc='upper left')
 plt.show()
-
-save_model(model)
