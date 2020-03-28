@@ -1,14 +1,6 @@
 import transformers
 import tensorflow as tf
-import os
 from transformers import *
-
-
-def clear(): return os.system('clear')  # on Linux System
-
-
-clear()
-
 
 """
 
