@@ -6,3 +6,4 @@ node_modules/
 .pytest_cache/
 report.html
 python/assets/
+keys.json
