@@ -3,7 +3,15 @@ import json
 API_KEYS = json.loads(open('./keys.json').read())
 
 
-import tweepy,json
+import tweepy
+
+def addToJson(element):
+  with open('./data.json','r') as f:
+    data = json.loads(f.read())
+  data.append(element)
+  data = json.dumps(data)
+  with open('./data.json','w') as f:
+    f.write(data)
 
 
 
@@ -16,21 +24,27 @@ def create_api(KEY):
 api = create_api(API_KEYS[0])
 
 def format_status(status):
-  if status.text[:2]!="RT":
-    element = {}
+  if status.text[:2]!="RT" and (status.lang in ['fr','en']):
+    final_element = status._json
     try:
-      element['text'] = status._json["extended_tweet"]['full_text']
+      final_element['tokens'] = final_element['extended_tweet']['full_text']
     except:
-      element['text'] = status._json['text']
+      final_element['tokens'] = final_element['text']
+    addToJson(final_element)
     print("=="*10)
-    print(element['text'])
+    print(status.text)
     print("=="*10)
+
+def tokenize(text):
+  return filter(lambda x:x!='',text.lower().replace('(@)\w+', '').replace('[^a-zA-Z ]', ' ').replace('  ', ' ').split(' '))
 
 import tweepy
 #override tweepy.StreamListener to add logic to on_status
 class MyStreamListener(tweepy.StreamListener):
 
     def on_status(self, status):
+        with open('./test.json',"w") as f:
+          f.write(json.dumps(status._json))
         format_status(status)
     
     def on_error(self, status_code):

@@ -1,0 +1,29 @@
+body,
+html {
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+}
+
+header {
+  top: 0px;
+  left: 0px;
+  right: 0px;
+}
+#main {
+  left: 0px;
+  right: 0px;
+  width: 100%;
+}
+div.element {
+  border: solid 1px green;
+  padding: 5px;
+}
+h1 {
+  font-family: "Courier New", Courier, monospace;
+  text-align: center;
+}
+
+section {
+  border: solid 2px grey;
+}
